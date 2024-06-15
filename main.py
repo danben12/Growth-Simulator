@@ -1,9 +1,5 @@
-from multiprocessing import Pool
-from time import time as T
 from scipy.spatial import KDTree
 import numpy as np
-import psutil
-from matplotlib import pyplot as plt
 from numba import njit, jit
 import pandas as pd
 import math

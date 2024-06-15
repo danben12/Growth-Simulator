@@ -1,8 +1,4 @@
-import subprocess
 import time as Time
-import webbrowser
-
-from bokeh.io import curdoc
 from bokeh.models import CDSView, ColumnDataSource
 import numpy as np
 from bokeh.plotting import output_file
@@ -13,9 +9,7 @@ from bokeh.plotting import figure, show
 from bokeh.models import ColorBar, LinearColorMapper, LogTicker
 from matplotlib import cm
 from matplotlib.colors import rgb2hex
-from bokeh.server.server import Server
-from bokeh.application import Application
-from bokeh.application.handlers.function import FunctionHandler
+
 
 
 line_properties = {'x': 'time', 'y': 'N', 'line_width': 2}
