@@ -15,6 +15,7 @@ import tkinter as tk
 from tkinter import ttk
 
 
+
 start = Time.time()
 def toggle_richards_parameter(*args):
     # Enable/disable the entry field based on the selected model
