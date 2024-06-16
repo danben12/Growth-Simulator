@@ -243,6 +243,14 @@ def csv_to_simulation_data(df, run_directory):
 def scanning_GUI():
     root = tk.Tk()
     root.title("Parameter Selection")
+    style = ttk.Style()
+    style.theme_use('clam')
+    style.configure("TFrame", background="light gray")
+    style.configure("TLabel", background="light gray", foreground="black", font=("Helvetica", 10))
+    style.configure("TButton", font=("Helvetica", 10, "bold"))
+    style.configure("TEntry", foreground="black", font=("Helvetica", 10))
+    style.configure("TCombobox", font=("Helvetica", 10))
+    style.configure("TCheckbutton", font=("Helvetica", 10))
     def creating_combinations():
         parameters = run_simulation()
         my_dict_float = {

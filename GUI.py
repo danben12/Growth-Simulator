@@ -111,6 +111,14 @@ if __name__ == "__main__":
     # Create main application window
     root = tk.Tk()
     root.title("Growth Rate Simulator")
+    style = ttk.Style()
+    style.theme_use('clam')
+    style.configure("TFrame", background="light gray")
+    style.configure("TLabel", background="light gray", foreground="black", font=("Helvetica", 10))
+    style.configure("TButton", font=("Helvetica", 10, "bold"))
+    style.configure("TEntry", foreground="black", font=("Helvetica", 10))
+    style.configure("TCombobox", font=("Helvetica", 10))
+    style.configure("TCheckbutton", font=("Helvetica", 10))
     # Create input fields
     input_frame = ttk.Frame(root, style="My.TFrame")
     input_frame.grid(row=0, column=0, padx=10, pady=10)
