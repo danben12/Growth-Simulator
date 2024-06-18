@@ -11,8 +11,6 @@ from dash import html
 from dash import dcc
 import webbrowser
 from threading import Timer
-
-from matplotlib import pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 start_time= time.time()
@@ -212,23 +210,23 @@ def index_Vs_heterogeneity(raw_data,simulations):
     initial_Numb_of_bacteria = []
     for value in raw_data.values():
         initial_Numb_of_bacteria.append(np.log10(value['num of bacteria'].sum()))
-        value['upper bin']=value['bin'].apply(math.ceil)
-        value['lower bin']=value['bin'].apply(math.floor)
-        grouped = value.groupby(['upper bin', 'lower bin']).size().reset_index(name='counts')
-        std_values.append(grouped['counts'].std())
+        # value['upper bin']=value['bin'].apply(math.ceil)
+        # value['lower bin']=value['bin'].apply(math.floor)
+        # grouped = value.groupby(['upper bin', 'lower bin']).size().reset_index(name='counts')
+        std_values.append(np.log10(value['droplet size'].std()))
     color_scale = initial_Numb_of_bacteria
     fig1 = go.Figure(data=[go.Scatter(x=std_values, y=chip_T50_values, mode='markers',marker=dict(size=12, color=color_scale, colorscale='Rainbow',showscale=True, colorbar=dict(title="Log 10 Number of bacteria")))])
     title1 = f'Heterogeneity against T50'
-    fig1.update_layout(title=title1, height=900, width=1800, xaxis_title='Heterogeneity', yaxis_title='T50')
+    fig1.update_layout(title=title1, height=900, width=1800, xaxis_title='Log 10 Heterogeneity', yaxis_title='T50')
     fig2 = go.Figure(data=[go.Scatter(x=std_values, y=chip_yield_values, mode='markers',marker=dict(size=12, color=color_scale, colorscale='Rainbow',showscale=True, colorbar=dict(title="Log 10 Number of bacteria")))])
     title2 = f'Heterogeneity against Log 10 Yield'
-    fig2.update_layout(title=title2, height=900, width=1800, xaxis_title='Heterogeneity',yaxis_title='Yield')
+    fig2.update_layout(title=title2, height=900, width=1800, xaxis_title='Log 10 Heterogeneity',yaxis_title='Yield')
     fig3 = go.Figure(data=[go.Scatter(x=std_values, y=chip_Rs_values, mode='markers',marker=dict(size=12, color=color_scale, colorscale='Rainbow',showscale=True, colorbar=dict(title="Log 10 Number of bacteria")))])
     title3 = f'Heterogeneity against Rs'
-    fig3.update_layout(title=title3, height=900, width=1800, xaxis_title='Heterogeneity', yaxis_title='Rs')
+    fig3.update_layout(title=title3, height=900, width=1800, xaxis_title='Log 10 Heterogeneity', yaxis_title='Rs')
     fig4 = go.Figure(data=[go.Scatter(x=std_values, y=chip_growth_rate_values, mode='markers',marker=dict(size=12, color=color_scale, colorscale='Rainbow',showscale=True, colorbar=dict(title="Log 10 Number of bacteria")))])
     title4 = f'Heterogeneity against instantaneous growth rate'
-    fig4.update_layout(title=title4, height=900, width=1800, xaxis_title='Heterogeneity',yaxis_title='instantaneous growth rate')
+    fig4.update_layout(title=title4, height=900, width=1800, xaxis_title='Log 10 Heterogeneity',yaxis_title='instantaneous growth rate')
     return fig2, fig3,fig1, fig4
 
 def index_Vs_density(raw_data,simulations):
