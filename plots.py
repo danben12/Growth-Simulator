@@ -43,11 +43,7 @@ def graph_panel(df,volume,time,mean,std,distribution,bacteria_pool, r, model,max
     print(f"Rs_Vs_Volume: {Time.time() - start}")
     micro_splash_visualization = main.micro_splash_visualization(df)
     print(f"Micro Splash Visualization: {Time.time() - start}")
-    droplet_sizes = df[df['num of bacteria'] != 0]['droplet size'].unique()
-    max_droplet_size =np.log10(max(droplet_sizes))
-    min_droplet_size =np.log10(min(droplet_sizes))
-    num_colors = len(droplet_sizes)
-    colors = jet_colormap(num_colors)  # Create a list of colors
+     # Create a list of colors
     meta_population = main.simulate_meta_population(time,df,model,r,m,max_step)
     print(f"Meta Population: {Time.time() - start}")
     source = ColumnDataSource(meta_population)
@@ -74,6 +70,10 @@ def graph_panel(df,volume,time,mean,std,distribution,bacteria_pool, r, model,max
     Fraction_in_each_bin = main.Fraction_in_each_bin(dic,time)
     print(f"Fraction_in_each_bin: {Time.time() - start}")
     droplet_sizes = [value['droplet size'].iloc[0] for value in dic.values()]
+    max_droplet_size = np.log10(max(droplet_sizes))
+    min_droplet_size = np.log10(min(droplet_sizes))
+    num_colors = len(droplet_sizes)
+    colors = jet_colormap(num_colors)
     color_indices = [list(droplet_sizes).index(droplet_size) for droplet_size in droplet_sizes]
     colors = [colors[color_index] for color_index in color_indices]
     normalized_Ns = [normalize_data(value['N']) for value in dic.values()]

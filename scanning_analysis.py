@@ -12,6 +12,7 @@ from dash import dcc
 import webbrowser
 from threading import Timer
 from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
 start_time= time.time()
 def swap_last_with_previous(row):
@@ -138,6 +139,12 @@ def create_T50_3D_plot(x,y,z,i,j):
     fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='T50'),aspectmode='cube'))
     return fig1
 
+def create_T50_4D_plot(x, y, z, c, i, j, k):
+    fig1 = go.Figure(data=[go.Scatter3d(x=x,y=y,z=z,mode='markers',name='Chip',marker=dict(size=12,color=c,colorscale='Rainbow',colorbar=dict(title=k),opacity=1))])
+    title1 = f'{i} and {j} against T50'
+    fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='T50'),aspectmode='cube'))
+    return fig1
+
 def create_yield_plot(x, y, i):
     fig1 = go.Figure(data=[go.Scatter(x=x, y=y, mode='markers',name='Chip', marker=dict(size=12))])
     title1 = f'{i} against Yield'
@@ -148,8 +155,14 @@ def create_yield_3D_plot(x, y, z, i, j):
     fig1 = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers',name='Chip', marker=dict(size=12))])
     title1 = f'{i} and {j} against Yield'
     fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='Yield'),aspectmode='cube'))
-
     return fig1
+
+def create_yield_4D_plot(x, y, z, c, i, j, k):
+    fig1 = go.Figure(data=[go.Scatter3d(x=x,y=y,z=z,mode='markers',name='Chip',marker=dict(size=12,color=c,colorscale='Rainbow',colorbar=dict(title=k),opacity=1))])
+    title1 = f'{i} and {j} against Yield'
+    fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='Yield'),aspectmode='cube'))
+    return fig1
+
 def create_Rs_plot(x, y, i):
     fig1 = go.Figure(data=[go.Scatter(x=x, y=y, mode='markers',name='Chip', marker=dict(size=12))])
     title1 = f'{i} against Rs'
@@ -162,6 +175,12 @@ def create_Rs_3D_plot(x, y, z, i, j):
     fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='Rs'),aspectmode='cube'))
     return fig1
 
+def create_Rs_4D_plot(x, y, z, c, i, j, k):
+    fig1 = go.Figure(data=[go.Scatter3d(x=x,y=y,z=z,mode='markers',name='Chip',marker=dict(size=12,color=c,colorscale='Rainbow',colorbar=dict(title=k),opacity=1))])
+    title1 = f'{i} and {j} against Rs'
+    fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='Rs'),aspectmode='cube'))
+    return fig1
+
 def create_growth_rate_plot(x, y, i):
     fig1 = go.Figure(data=[go.Scatter(x=x, y=y, mode='markers',name='Chip', marker=dict(size=12))])
     title1 = f'{i} against Log10  instantaneous growth rate'
@@ -170,6 +189,12 @@ def create_growth_rate_plot(x, y, i):
 
 def create_growth_rate_3D_plot(x, y, z, i, j):
     fig1 = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z, mode='markers',name='Chip', marker=dict(size=12))])
+    title1 = f'{i} and {j} against Log 10 instantaneous growth rate'
+    fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='Log 10 instantaneous growth rate'),aspectmode='cube'))
+    return fig1
+
+def create_growth_rate_4D_plot(x, y, z, c, i, j, k):
+    fig1 = go.Figure(data=[go.Scatter3d(x=x,y=y,z=z,mode='markers',name='Chip',marker=dict(size=12,color=c,colorscale='Rainbow',colorbar=dict(title=k),opacity=1))])
     title1 = f'{i} and {j} against Log 10 instantaneous growth rate'
     fig1.update_layout(title=title1,height=900,width=1800,scene=dict(xaxis=dict(title=i),yaxis=dict(title=j),zaxis=dict(title='Log 10 instantaneous growth rate'),aspectmode='cube'))
     return fig1
@@ -331,7 +356,7 @@ def main():
             fig_list.append(create_growth_rate_plot(x, z4, name))
             print(f'creating the growth rate plot took {time.time()-t} seconds')
             t = time.time()
-    if len(parameters.columns)==2:
+    if len(parameters.columns)==2 :
         name1=parameters.columns[0]
         name2=parameters.columns[1]
         x=parameters[name1].values
@@ -357,6 +382,35 @@ def main():
         fig_list.extend([fig5, fig6, fig7, fig8])
         print(f'creating the index vs heterogeneity plots took {time.time()-t} seconds')
         t = time.time()
+    if len(parameters.columns)==3:
+        name1=parameters.columns[0]
+        name2=parameters.columns[1]
+        name3=parameters.columns[2]
+        x=parameters[name1].values
+        y=parameters[name2].values
+        c=parameters[name3].values
+        fig_list.append(create_yield_4D_plot(x, y, z2, c, name1, name2, name3))
+        print(f'creating the 4D yield plot took {time.time()-t} seconds')
+        t = time.time()
+        fig_list.append(create_Rs_4D_plot(x, y, z3, c, name1, name2, name3))
+        print(f'creating the 4D Rs plot took {time.time()-t} seconds')
+        t = time.time()
+        fig_list.append(create_T50_4D_plot(x, y, z1,c , name1, name2, name3))
+        print(f'creating the 4D T50 plot took {time.time()-t} seconds')
+        t = time.time()
+        fig_list.append(create_growth_rate_4D_plot(x, y, z4, c, name1, name2, name3))
+        print(f'creating the 4D growth rate plot took {time.time()-t} seconds')
+        t = time.time()
+        if 'Mean' in parameters.columns:
+            fig1, fig2, fig3, fig4 = index_vs_patches(raw_data, sim,parameters)
+            fig_list.extend([fig1, fig2, fig3, fig4])
+            print(f'creating the index vs patches plots took {time.time()-t} seconds')
+            t = time.time()
+        fig5, fig6, fig7, fig8 = index_Vs_heterogeneity(raw_data, sim)
+        fig_list.extend([fig5, fig6, fig7, fig8])
+        print(f'creating the index vs heterogeneity plots took {time.time()-t} seconds')
+        t = time.time()
+
 
     # fig9, fig10, fig11, fig12 = index_Vs_density(raw_data, sim)
     # fig_list.extend([fig9, fig10, fig11, fig12])

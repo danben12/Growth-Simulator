@@ -150,7 +150,7 @@ def richards_growth_rate(time, N0, K, r, m, max_step,droplet_size):
         dic[i]=df
     return dic
 def stats_box(model, volume, distribution, mean, std, df, bacteria_pool, time, max_step, r, m):
-    if model == 'logistic':  # if the model is logistic
+    if distribution == 'lognormal':  # if the model is logistic
         stats_text = (f"Model: {model}<br>"
             f"Total droplets volume: {volume}<br>"
             f"Distribution type: {distribution}<br>"
@@ -355,7 +355,7 @@ def simulate_meta_population(time,df,model,r,m=None,max_step=0.1):
     total_droplet_size = df['droplet size'].sum()
     initial_density = total_bacteria / total_droplet_size
     Rs=-5.1 - 0.0357*np.log2(total_droplet_size) - 0.81*np.log2(initial_density)
-    k=[int(total_bacteria*2**Rs)]
+    k=[total_bacteria*2**Rs]
     model_functions = {
         'logistic': (logistic_growth_rate, 'logistic'),
         'gompertz': (gompertz_growth_rate, 'gompertz'),
@@ -367,7 +367,6 @@ def simulate_meta_population(time,df,model,r,m=None,max_step=0.1):
     else:
         df2=model_function(time, [total_bacteria], k, r, max_step, [total_droplet_size])
     return df2[0]
-
 
 def find_time_to_half_capacity(dic):
     T50_vals=[]
@@ -487,3 +486,4 @@ def micro_splash_visualization(df):
     combined_y = np.concatenate(new_df['bac_y'].values)
     p.circle(combined_x, combined_y, size=3, color="red", alpha=0.5)
     return p
+
